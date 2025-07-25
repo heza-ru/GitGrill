@@ -1,0 +1,12 @@
+{
+  "name": "gitgrill-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for GitGrill",
+  "main": "github-roast.js",
+  "dependencies": {
+    "node-fetch": "^2.6.7"
+  },
+  "engines": {
+    "node": ">=14"
+  }
+} 
