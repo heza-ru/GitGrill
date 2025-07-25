@@ -461,4 +461,115 @@ body {
 @keyframes powerPulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
-} 
+}
+
+/* MOBILE RESPONSIVE STYLES */
+@media (max-width: 768px) {
+  /* Disable hover effects on mobile */
+  .force-button:hover,
+  .pixel-font:hover {
+    transform: none !important;
+  }
+  
+  /* Better touch targets */
+  .force-button,
+  .force-input,
+  button {
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  /* Improved text selection for mobile */
+  .crt-screen,
+  .roast-content {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+  
+  /* Better spacing for mobile */
+  .main-container {
+    padding: 0.75rem !important;
+    gap: 1rem !important;
+  }
+  
+  /* CRT Monitor adjustments for mobile */
+  .crt-monitor {
+    margin-bottom: 1rem !important;
+  }
+  
+  .crt-screen {
+    padding: 1rem !important;
+  }
+  
+  /* Disable complex animations on mobile for performance */
+  .crt-monitor::before,
+  .crt-monitor::after,
+  .power-led {
+    animation: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  body {
+    font-size: 14px;
+  }
+  
+  .pixel-font {
+    font-size: 0.7rem !important;
+  }
+  
+  .main-container {
+    padding: 0.5rem !important;
+  }
+  
+  /* Ensure touch targets are large enough */
+  button, input, .force-button, .force-input {
+    min-height: 48px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  /* Stack elements vertically on very small screens */
+  .targeted-burns-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* LANDSCAPE MOBILE */
+@media (max-width: 768px) and (orientation: landscape) {
+  .main-container {
+    padding-top: 10px !important;
+  }
+  
+  .crt-monitor {
+    margin-bottom: 0.5rem !important;
+  }
+}
+
+/* DARK MODE SAFE STYLES */
+@media (prefers-color-scheme: dark) {
+  /* Already optimized for dark theme */
+}
+
+/* HIGH CONTRAST MODE */
+@media (prefers-contrast: high) {
+  .crt-monitor {
+    border-color: #ffffff !important;
+  }
+  
+  .crt-screen {
+    background: #000000 !important;
+    color: #ffffff !important;
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

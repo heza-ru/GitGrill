@@ -100,11 +100,11 @@ const GitGrillApp = () => {
     >
       <PixelStars />
       
-      {/* GitHub Star Button - Top Right */}
+      {/* GitHub Star Button - Responsive */}
       <div style={{
         position: 'fixed',
-        top: '20px',
-        right: '20px',
+        top: '10px',
+        right: '10px',
         zIndex: 1000,
         display: 'flex',
         alignItems: 'center',
@@ -117,8 +117,8 @@ const GitGrillApp = () => {
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '0.5rem',
-            padding: '0.75rem 1rem',
+            gap: '0.3rem',
+            padding: window.innerWidth <= 768 ? '0.5rem 0.75rem' : '0.75rem 1rem',
             background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%)',
             backdropFilter: 'blur(10px)',
             border: '2px solid rgba(34, 211, 238, 0.6)',
@@ -126,7 +126,7 @@ const GitGrillApp = () => {
             color: '#22d3ee',
             textDecoration: 'none',
             fontFamily: "'Press Start 2P', cursive",
-            fontSize: '0.6rem',
+            fontSize: window.innerWidth <= 768 ? '0.5rem' : '0.6rem',
             fontWeight: 'bold',
             textShadow: '0 0 10px rgba(34, 211, 238, 0.5)',
             boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
@@ -134,24 +134,30 @@ const GitGrillApp = () => {
             clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
           }}
           onMouseEnter={(e) => {
-            e.target.style.transform = 'translateY(-2px) scale(1.05)';
-            e.target.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
-            e.target.style.borderColor = 'rgba(34, 211, 238, 0.9)';
-            e.target.style.textShadow = '0 0 15px rgba(34, 211, 238, 0.8)';
+            if (window.innerWidth > 768) {
+              e.target.style.transform = 'translateY(-2px) scale(1.05)';
+              e.target.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+              e.target.style.borderColor = 'rgba(34, 211, 238, 0.9)';
+              e.target.style.textShadow = '0 0 15px rgba(34, 211, 238, 0.8)';
+            }
           }}
           onMouseLeave={(e) => {
-            e.target.style.transform = 'translateY(0px) scale(1)';
-            e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
-            e.target.style.borderColor = 'rgba(34, 211, 238, 0.6)';
-            e.target.style.textShadow = '0 0 10px rgba(34, 211, 238, 0.5)';
+            if (window.innerWidth > 768) {
+              e.target.style.transform = 'translateY(0px) scale(1)';
+              e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+              e.target.style.borderColor = 'rgba(34, 211, 238, 0.6)';
+              e.target.style.textShadow = '0 0 10px rgba(34, 211, 238, 0.5)';
+            }
           }}
         >
-          <span style={{ fontSize: '0.8rem' }}>⭐</span>
-          <span>STAR ON GITHUB</span>
+          <span style={{ fontSize: window.innerWidth <= 768 ? '0.6rem' : '0.8rem' }}>⭐</span>
+          <span style={{ display: window.innerWidth <= 480 ? 'none' : 'inline' }}>
+            {window.innerWidth <= 768 ? 'STAR' : 'STAR ON GITHUB'}
+          </span>
         </a>
       </div>
       
-      {/* MAIN CONTAINER - FORCED CENTER */}
+      {/* MAIN CONTAINER - RESPONSIVE */}
       <div className="main-container" style={{
         width: '100%',
         maxWidth: '900px',
@@ -159,17 +165,18 @@ const GitGrillApp = () => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '1.5rem',
+        gap: window.innerWidth <= 768 ? '1rem' : '1.5rem',
         zIndex: 20,
         position: 'relative',
-        padding: '1rem',
+        padding: window.innerWidth <= 768 ? '0.5rem' : '1rem',
         boxSizing: 'border-box',
+        paddingTop: window.innerWidth <= 768 ? '60px' : '20px', // Account for mobile star button
       }}>
         {/* Header Card - CRT Monitor */}
         <div className="crt-monitor" style={{
           maxWidth: '700px',
           width: '100%',
-          marginBottom: '2rem',
+          marginBottom: window.innerWidth <= 768 ? '1rem' : '2rem',
         }}>
           <div className="power-led"></div>
           <div className="wire-connector"></div>
@@ -178,27 +185,35 @@ const GitGrillApp = () => {
               display: 'flex', 
               alignItems: 'center', 
               justifyContent: 'center', 
-              gap: '2rem',
-              marginBottom: '0.5rem' 
+              gap: window.innerWidth <= 768 ? '1rem' : '2rem',
+              marginBottom: '0.5rem',
+              flexWrap: 'wrap',
             }}>
               <h1 className="big-title pixel-font" style={{
-                fontSize: '3rem',
+                fontSize: window.innerWidth <= 480 ? '1.8rem' : window.innerWidth <= 768 ? '2.2rem' : '3rem',
                 margin: '0',
                 color: '#00ff7f',
                 lineHeight: '1.2',
                 textShadow: '0 0 10px #00ff7f',
+                textAlign: 'center',
               }}>
                 GitGrill
               </h1>
             </div>
             <p style={{
               margin: '0',
-              fontSize: '0.8rem',
+              fontSize: window.innerWidth <= 480 ? '0.7rem' : '0.8rem',
               color: '#66ff99',
               textShadow: '0 0 5px #66ff99',
               fontFamily: "'JetBrains Mono', monospace",
+              textAlign: 'center',
+              lineHeight: '1.4',
+              padding: window.innerWidth <= 768 ? '0 0.5rem' : '0',
             }}>
-              8—Bit burns for your GitHub turns pixel—perfect roasts in every commit.
+              {window.innerWidth <= 480 
+                ? '8-Bit burns for your GitHub turns'
+                : '8—Bit burns for your GitHub turns pixel—perfect roasts in every commit.'
+              }
             </p>
           </div>
         </div>
@@ -231,7 +246,7 @@ const GitGrillApp = () => {
               color: '#64748b',
               textShadow: '0 0 5px rgba(100, 116, 139, 0.3)',
             }}>
-              ◆ POWERED BY SEARDUCK ENGINE ◆
+              ◆ POWERED BY REDDIT COMMENTS, INSPIRED BY RUBBER DUCK THURSDAYS ◆
             </div>
           </div>
         )}

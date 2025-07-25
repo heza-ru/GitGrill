@@ -31,7 +31,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
       display: 'flex', 
       flexDirection: 'column', 
       alignItems: 'center',
-      gap: '2rem',
+      gap: window.innerWidth <= 768 ? '1rem' : '2rem',
       overflow: 'hidden'
     }}>
       <div className="crt-monitor" style={{
@@ -52,39 +52,43 @@ const RoastDisplay = ({ data, onNewRoast }) => {
             {/* Results Header */}
             <div style={{
               textAlign: 'center',
-              marginBottom: '2rem',
+              marginBottom: window.innerWidth <= 768 ? '1.5rem' : '2rem',
               borderBottom: '2px solid #00ff7f',
-              paddingBottom: '1rem',
+              paddingBottom: window.innerWidth <= 768 ? '0.8rem' : '1rem',
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '1rem',
-                marginBottom: '1rem',
+                gap: window.innerWidth <= 768 ? '0.8rem' : '1rem',
+                marginBottom: window.innerWidth <= 768 ? '0.8rem' : '1rem',
+                flexWrap: 'wrap',
               }}>
                 <div style={{
-                  fontSize: '2rem',
+                  fontSize: window.innerWidth <= 480 ? '1.5rem' : '2rem',
                   color: classification.color,
                 }}>
                   {classification.icon}
                 </div>
                 <div>
                   <h2 style={{
-                    fontSize: '2rem',
+                    fontSize: window.innerWidth <= 480 ? '1.2rem' : window.innerWidth <= 768 ? '1.5rem' : '2rem',
                     margin: '0',
                     color: '#00ff7f',
                     fontFamily: "'Press Start 2P', cursive",
                     textShadow: '0 0 10px #00ff7f',
+                    wordBreak: 'break-word',
+                    textAlign: 'center',
                   }}>
                     {data.username}
                   </h2>
                   <div style={{
-                    fontSize: '0.8rem',
+                    fontSize: window.innerWidth <= 480 ? '0.6rem' : '0.8rem',
                     color: classification.color,
                     fontFamily: "'Press Start 2P', cursive",
                     marginTop: '0.5rem',
                     textShadow: `0 0 10px ${classification.color}`,
+                    textAlign: 'center',
                   }}>
                     {classification.type}
                   </div>
@@ -97,31 +101,36 @@ const RoastDisplay = ({ data, onNewRoast }) => {
               background: 'rgba(0, 0, 0, 0.9)',
               backdropFilter: 'blur(8px)',
               border: '3px solid rgba(16, 185, 129, 0.7)',
-              padding: '2rem',
-              marginBottom: '2rem',
+              padding: window.innerWidth <= 768 ? '1rem' : '2rem',
+              marginBottom: window.innerWidth <= 768 ? '1.5rem' : '2rem',
               boxShadow: '0 15px 35px rgba(0, 0, 0, 0.5)',
               imageRendering: 'pixelated',
-              clipPath: 'polygon(0px 6px, 6px 6px, 6px 0px, calc(100% - 6px) 0px, calc(100% - 6px) 6px, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 6px calc(100% - 6px), 0px calc(100% - 6px))',
+              clipPath: window.innerWidth <= 768 ? 'none' : 'polygon(0px 6px, 6px 6px, 6px 0px, calc(100% - 6px) 0px, calc(100% - 6px) 6px, 100% 6px, 100% calc(100% - 6px), calc(100% - 6px) calc(100% - 6px), calc(100% - 6px) 100%, 6px 100%, 6px calc(100% - 6px), 0px calc(100% - 6px))',
+              borderRadius: window.innerWidth <= 768 ? '8px' : '0',
             }}>
               <div style={{
                 fontFamily: "'JetBrains Mono', monospace",
                 color: '#10b981',
-                fontSize: '0.9rem',
-                marginBottom: '1.5rem',
+                fontSize: window.innerWidth <= 480 ? '0.7rem' : '0.9rem',
+                marginBottom: window.innerWidth <= 768 ? '1rem' : '1.5rem',
                 textShadow: '0 0 10px rgba(16, 185, 129, 0.5)',
+                wordBreak: 'break-all',
               }}>
                 &gt; searduck_roast.exe --target={data.username} --mode=brutal
               </div>
               <div style={{
                 color: '#ffffff',
                 fontFamily: "'JetBrains Mono', monospace",
-                fontSize: '1rem',
-                lineHeight: '1.8',
+                fontSize: window.innerWidth <= 480 ? '0.85rem' : '1rem',
+                lineHeight: window.innerWidth <= 768 ? '1.6' : '1.8',
                 textShadow: '0 0 5px rgba(255, 255, 255, 0.2)',
                 background: 'rgba(0, 0, 0, 0.6)',
-                padding: '1.5rem',
+                padding: window.innerWidth <= 768 ? '1rem' : '1.5rem',
                 border: '1px solid rgba(16, 185, 129, 0.3)',
-                clipPath: 'polygon(0px 3px, 3px 3px, 3px 0px, calc(100% - 3px) 0px, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0px calc(100% - 3px))',
+                clipPath: window.innerWidth <= 768 ? 'none' : 'polygon(0px 3px, 3px 3px, 3px 0px, calc(100% - 3px) 0px, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0px calc(100% - 3px))',
+                borderRadius: window.innerWidth <= 768 ? '6px' : '0',
+                wordWrap: 'break-word',
+                overflowWrap: 'break-word',
               }}>
                 {data.roast.split('\n').map((paragraph, index) => (
                   <div key={index} style={{
@@ -235,8 +244,12 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                 className="targeted-burns-grid"
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-                  gap: '1rem',
+                  gridTemplateColumns: window.innerWidth <= 480 
+                    ? '1fr' 
+                    : window.innerWidth <= 768 
+                      ? 'repeat(2, 1fr)' 
+                      : 'repeat(auto-fit, minmax(200px, 1fr))',
+                  gap: window.innerWidth <= 768 ? '0.8rem' : '1rem',
                   width: '100%',
                   overflow: 'hidden',
                 }}
@@ -849,29 +862,37 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                 onClick={onNewRoast}
                 className="pixel-font"
                 style={{
-                  padding: '1rem 2rem',
+                  padding: window.innerWidth <= 768 ? '1rem 1.5rem' : '1rem 2rem',
                   background: 'linear-gradient(to right, #06b6d4, #8b5cf6)',
                   border: '3px solid rgba(255, 255, 255, 0.4)',
                   color: 'white',
-                  fontSize: '0.9rem',
+                  fontSize: window.innerWidth <= 480 ? '0.8rem' : '0.9rem',
                   fontWeight: 'bold',
                   cursor: 'pointer',
                   transition: 'all 0.3s ease',
                   boxShadow: '0 15px 35px rgba(0, 0, 0, 0.4)',
                   textShadow: '0 0 10px rgba(255, 255, 255, 0.3)',
                   imageRendering: 'pixelated',
-                  clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
+                  clipPath: window.innerWidth <= 768 ? 'none' : 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
+                  borderRadius: window.innerWidth <= 768 ? '8px' : '0',
+                  minHeight: window.innerWidth <= 768 ? '48px' : 'auto',
+                  boxSizing: 'border-box',
+                  minWidth: window.innerWidth <= 768 ? '200px' : 'auto',
                 }}
                 onMouseEnter={(e) => {
-                  e.target.style.transform = 'scale(1.05)';
-                  e.target.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.6)';
+                  if (window.innerWidth > 768) {
+                    e.target.style.transform = 'scale(1.05)';
+                    e.target.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.6)';
+                  }
                 }}
                 onMouseLeave={(e) => {
-                  e.target.style.transform = 'scale(1)';
-                  e.target.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.4)';
+                  if (window.innerWidth > 768) {
+                    e.target.style.transform = 'scale(1)';
+                    e.target.style.boxShadow = '0 15px 35px rgba(0, 0, 0, 0.4)';
+                  }
                 }}
               >
-                ► NEW SCAN ◄
+                {window.innerWidth <= 480 ? '► NEW SCAN ◄' : '► NEW SCAN ◄'}
               </button>
             </div>
           </div>
