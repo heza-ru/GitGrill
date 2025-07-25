@@ -32,6 +32,7 @@
 
 ### 📱 Mobile Experience
 *Perfectly optimized for mobile roasting on-the-go*
+
 ![Mobile View](screenshots/mobile-view.gif)
 
 </div>
