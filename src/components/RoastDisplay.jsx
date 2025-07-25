@@ -349,15 +349,61 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                   fontStyle: 'italic',
                   textShadow: '0 0 5px rgba(216, 180, 254, 0.3)',
                 }}>
-                  {[
-                    `"Code quality is like a duck's quack - if no one hears it, does it really exist?"`,
-                    `"The best way to debug code is to explain it to a rubber duck. You clearly need more ducks."`,
-                    `"Your code commits are like duck eggs - they look promising until they hatch."`,
-                    `"A programmer without tests is like a duck without water - technically functional but missing the point."`,
-                    `"Your repository is like a pond - looks calm on the surface but chaos underneath."`,
-                    `"Good code is like a duck's landing - it looks effortless but requires skill you clearly lack."`,
-                    `"Your GitHub profile is like a duck in winter - cold, barren, and nobody wants to visit."`
-                  ][Math.floor(Math.random() * 7)]}
+                  {(() => {
+                    const wisdomQuotes = [
+                      `"Code quality is like a duck's quack - if no one hears it, does it really exist?"`,
+                      `"The best way to debug code is to explain it to a rubber duck. You clearly need more ducks."`,
+                      `"Your code commits are like duck eggs - they look promising until they hatch."`,
+                      `"A programmer without tests is like a duck without water - technically functional but missing the point."`,
+                      `"Your repository is like a pond - looks calm on the surface but chaos underneath."`,
+                      `"Good code is like a duck's landing - it looks effortless but requires skill you clearly lack."`,
+                      `"Your GitHub profile is like a duck in winter - cold, barren, and nobody wants to visit."`,
+                      `"Documentation is like a duck's nest - everyone knows it should be there, but nobody wants to build it."`,
+                      `"Your code reviews are like watching a duck try to fly backwards - painful and pointless."`,
+                      `"Version control without commits is like a duck without feathers - technically still a duck, but embarrassing to look at."`,
+                      `"Your coding style is like a duck's waddle - distinctive, but not necessarily impressive."`,
+                      `"Debugging your code is like following a duck through a maze - lots of wrong turns and confused quacking."`,
+                      `"Your function names are like duck calls - they make noise, but nobody understands what they mean."`,
+                      `"Refactoring your code is like teaching an old duck new tricks - possible, but requires infinite patience."`,
+                      `"Your API design is like a duck's feet - it works underwater, but looks ridiculous on land."`,
+                      `"Code comments are like duck footprints - they show where you've been, but not where you're going."`,
+                      `"Your error handling is like a duck in a thunderstorm - lots of flapping, minimal progress."`,
+                      `"Performance optimization without profiling is like a blind duck hunting - lots of effort, zero accuracy."`,
+                      `"Your merge conflicts are like two ducks fighting over bread crumbs - messy and unnecessary."`,
+                      `"Writing clean code is like a duck's preening - essential maintenance that everyone neglects."`,
+                      `"Your coding habits are like a duck's migration pattern - predictably disappointing."`,
+                      `"Technical debt is like feeding ducks bread - seems harmless until the ecosystem collapses."`,
+                      `"Your test coverage is like a duck's attention span - impressively short and easily distracted."`,
+                      `"Code optimization without benchmarks is like a duck racing a cheetah - admirable confidence, tragic outcome."`,
+                      `"Your project architecture is like a duck's nest in a hurricane - ambitious but fundamentally flawed."`,
+                      `"Premature optimization is like a duck trying to fly before learning to swim - backwards priorities."`,
+                      `"Your commit messages are like duck hieroglyphics - meaningful to you, gibberish to everyone else."`,
+                      `"Code without version control is like a duck without a pond - technically alive, but missing the point."`,
+                      `"Your coding methodology is like a duck's diet - you'll eat anything, but you probably shouldn't."`
+                    ];
+                    
+                    // Personalize based on user metrics
+                    const personalizedQuotes = [];
+                    
+                    if (data.metrics.emojiRatio > 0.3) {
+                      personalizedQuotes.push(`"Using emojis in commits is like putting lipstick on a duck - it doesn't make it prettier, just more embarrassing."`);
+                    }
+                    
+                    if (data.metrics.commitFrequency < 10) {
+                      personalizedQuotes.push(`"Your commit frequency is like a duck's flying schedule - rare and usually disappointing."`);
+                    }
+                    
+                    if (data.metrics.languages.length === 1) {
+                      personalizedQuotes.push(`"Knowing only ${data.metrics.languages[0]} is like being a duck that only swims in puddles - limited perspective."`);
+                    }
+                    
+                    if (data.metrics.productivityScore <= 3) {
+                      personalizedQuotes.push(`"Your productivity score is like a duck's sense of direction - consistently underwhelming."`);
+                    }
+                    
+                    const allQuotes = [...wisdomQuotes, ...personalizedQuotes];
+                    return allQuotes[Math.floor(Math.random() * allQuotes.length)];
+                  })()}
                 </div>
               </div>
             </div>

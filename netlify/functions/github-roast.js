@@ -73,122 +73,246 @@ const ROAST_TEMPLATES = {
   ]
 };
 
-// Language-specific roasts
+// Enhanced language-specific roasts with more variety
 const LANGUAGE_ROASTS = {
-  'JavaScript': "JavaScript? The language where 'false' == 0 but 'false' !== 0. Perfect choice for someone who enjoys suffering.",
-  'Python': "Python? Because why write efficient code when you can pretend indentation is a programming paradigm?",
-  'Java': "Java? Still writing enterprise-grade hello world applications, I see.",
-  'C++': "C++ - because you enjoy segmentation faults as a hobby.",
-  'PHP': "PHP? My condolences to your career prospects.",
-  'Go': "Go? Google's attempt to make programming boring succeeded, and you fell for it.",
-  'Rust': "Rust? You're that person who mentions being vegan within 5 minutes of meeting someone.",
-  'TypeScript': "TypeScript - JavaScript with training wheels for people who can't handle dynamic typing.",
-  'Swift': "Swift? Still pretending iOS development is the future?",
-  'Kotlin': "Kotlin - Java with makeup. Still ugly underneath.",
-  'C#': "C# - Microsoft's Java clone for people who gave up on originality.",
-  'Ruby': "Ruby? That's so 2010. What's next, a MySpace profile?",
-  'Matlab': "Matlab? Are you a college student or just stuck in 2005?",
-  'R': "R? Statistics are fun until you realize no one cares about your data analysis.",
-  'Perl': "Perl? I didn't know people still coded in hieroglyphics."
+  'JavaScript': [
+    "JavaScript? The language where 'false' == 0 but 'false' !== 0. Perfect choice for someone who enjoys suffering.",
+    "Ah, JavaScript - where undefined is defined and everything is broken by design. Just like your career choices.",
+    "JavaScript: the language that makes other languages look good by comparison. How fitting for your skill level.",
+    "Using JavaScript is like playing Russian roulette with a fully loaded gun - painful, unpredictable, and ultimately disappointing."
+  ],
+  'Python': [
+    "Python? Because why write efficient code when you can pretend indentation is a programming paradigm?",
+    "Python - for when you want to code like you're writing a children's book. Perfect for your reading level.",
+    "Choosing Python is like choosing training wheels for your bicycle - technically it works, but everyone knows you're not ready for the real thing.",
+    "Python: the language that makes slow look fast. Ideal for your thought processes."
+  ],
+  'Java': [
+    "Java? Still writing enterprise-grade hello world applications, I see.",
+    "Java - because why use one line when you can use fifty? Your verbosity matches your code.",
+    "Java: the COBOL of the 21st century. How revolutionary of you to choose legacy technology.",
+    "Writing Java is like filling out tax forms - unnecessarily complex and nobody enjoys it."
+  ],
+  'C++': [
+    "C++ - because you enjoy segmentation faults as a hobby.",
+    "C++: where memory management is manual and your pain is guaranteed. Masochist much?",
+    "Using C++ is like performing surgery with a chainsaw - powerful, but you'll probably hurt yourself.",
+    "C++ - the language that makes simple things complicated and complicated things impossible."
+  ],
+  'PHP': [
+    "PHP? My condolences to your career prospects.",
+    "PHP - the language that makes every other language look like poetry. How poetic justice.",
+    "Choosing PHP is like choosing to eat expired food - technically possible, but why would you?",
+    "PHP: Probably Hopeless Programming. The acronym explains everything about your choices."
+  ],
+  'Go': [
+    "Go? Google's attempt to make programming boring succeeded, and you fell for it.",
+    "Go - for when you want the simplicity of C with the excitement of watching paint dry.",
+    "Using Go is like choosing vanilla ice cream every day - safe, boring, and disappointing.",
+    "Go: the language that makes mediocrity look like a design goal."
+  ],
+  'Rust': [
+    "Rust? You're that person who mentions being vegan within 5 minutes of meeting someone.",
+    "Rust - because fighting the borrow checker is more fun than actually programming. Stockholm syndrome much?",
+    "Using Rust is like dating someone who corrects your grammar - technically right, but insufferably annoying.",
+    "Rust: where the compiler is smarter than you'll ever be, and it knows it."
+  ],
+  'TypeScript': [
+    "TypeScript - JavaScript with training wheels for people who can't handle dynamic typing.",
+    "TypeScript: because JavaScript wasn't painful enough on its own. You needed extra suffering.",
+    "Using TypeScript is like putting makeup on a pig - it's still JavaScript underneath.",
+    "TypeScript - Microsoft's way of saying 'we can make JavaScript worse.' Challenge accepted and achieved."
+  ],
+  'Swift': [
+    "Swift? Still pretending iOS development is the future?",
+    "Swift - Apple's gift to developers who enjoy vendor lock-in with their programming languages too.",
+    "Using Swift is like buying only Apple products - overpriced, limited, and you convince yourself it's better.",
+    "Swift: where syntax sugar can't hide the bitter taste of platform exclusivity."
+  ],
+  'Kotlin': [
+    "Kotlin - Java with makeup. Still ugly underneath.",
+    "Kotlin: Google's attempt to make Java bearable. Like putting lipstick on a hippopotamus.",
+    "Using Kotlin is like renovating a condemned building - sure, it's an improvement, but why not start fresh?",
+    "Kotlin - because apparently one JVM language wasn't enough for your confused career path."
+  ],
+  'C#': [
+    "C# - Microsoft's Java clone for people who gave up on originality.",
+    "C#: where everything is an object, including your disappointment in your language choice.",
+    "Using C# is like shopping at the Microsoft store - limited selection, vendor lock-in, and questionable decisions.",
+    "C# - because copying Java wasn't shameful enough, you had to use the copy."
+  ],
+  'Ruby': [
+    "Ruby? That's so 2010. What's next, a MySpace profile?",
+    "Ruby - the language that makes everything look like magic, including how your career disappeared.",
+    "Using Ruby is like driving a car from the 90s - it runs, but everyone wonders why you haven't upgraded.",
+    "Ruby: where productivity dies and elegance goes to suffer slowly."
+  ],
+  'HTML': [
+    "HTML? That's not even a programming language. It's like calling yourself a chef because you can make toast.",
+    "HTML - because apparently markup is the extent of your technical ambitions.",
+    "Listing HTML as your main language is like listing 'breathing' as your primary skill.",
+    "HTML: the participation trophy of programming languages."
+  ],
+  'CSS': [
+    "CSS? Fighting with layout engines isn't programming, it's modern art - abstract and nobody understands it.",
+    "CSS - where centering a div requires a computer science degree and three stackoverflow searches.",
+    "Using CSS is like trying to fold a fitted sheet - theoretically possible, practically impossible.",
+    "CSS: the language that makes designers cry and developers question their life choices."
+  ]
 };
 
 function generatePersonalizedRoast(profile, repositories, metrics, analysis) {
   const roastParts = [];
   
-  // Opening with name and basic insult
+  // Extract detailed profile data
   const name = profile.name || profile.login;
   const joinYear = new Date(profile.created_at).getFullYear();
+  const accountAge = new Date().getFullYear() - joinYear;
   const followers = profile.followers;
+  const following = profile.following;
   const repoCount = profile.public_repos;
+  const location = profile.location;
+  const company = profile.company;
+  const bio = profile.bio;
   
-  // Special case for heza-ru (SearDuck's father)
-  if (profile.login.toLowerCase() === 'heza-ru') {
-    return `Ah, ${name}, SearDuck's father has graced us with his presence! Even the creator of the roasting duck cannot escape judgment. Your ${repoCount} repositories show that even divine beings struggle with consistency. With ${followers} followers, you've proven that being SearDuck's creator doesn't automatically grant popularity. Your coding journey since ${joinYear} reads like a tragicomedy - brilliant moments followed by questionable decisions. The duck may respect you, but your GitHub statistics... well, they speak for themselves.`;
-  }
-  
-  // Start with name and basic stats
-  if (!profile.bio) {
-    roastParts.push(`${name}, zero name, zero bio, zero excitement.`);
-  } else {
-    roastParts.push(`${name}, you've been on GitHub since ${joinYear}`);
-  }
-  
-  // Followers roast
-  if (followers <= 1) {
-    roastParts.push(`and have managed to gather ${followers} follower${followers !== 1 ? 's' : ''}. ${followers === 1 ? "I bet it's your mom." : "Even spam bots won't follow you."}`);
-  } else if (followers < 10) {
-    roastParts.push(`and your ${followers} followers are probably just there out of pity.`);
-  } else if (followers < 50) {
-    roastParts.push(`With ${followers} followers, you're basically the GitHub equivalent of a ghost town.`);
-  }
-  
-  // Repository analysis
-  const topRepo = repositories.find(repo => repo.stargazers_count > 0) || repositories[0];
+  // Calculate additional metrics
   const totalStars = repositories.reduce((sum, repo) => sum + repo.stargazers_count, 0);
   const forkCount = repositories.filter(repo => repo.fork).length;
   const originalRepos = repositories.filter(repo => !repo.fork);
-  
-  if (forkCount > originalRepos.length) {
-    roastParts.push(`Your entire GitHub is just a graveyard of forks. ${originalRepos.length} original repos versus ${forkCount} forks? Your creativity amounts to Ctrl+C, Ctrl+V.`);
-  }
-  
-  if (topRepo && topRepo.stargazers_count > 0) {
-    const mainLanguage = topRepo.language || 'an unknown language';
-    roastParts.push(`Your most acclaimed repository is "${topRepo.name}" with ${topRepo.stargazers_count} stars, written in ${mainLanguage}. That's not an achievement, that's a participation award.`);
-  } else {
-    roastParts.push(`None of your repositories have any stars. That's not humble, that's tragic.`);
-  }
-  
-  // Language-specific roasts
-  if (metrics.languages.length === 1) {
-    const language = metrics.languages[0];
-    roastParts.push(`Only coding in ${language}? ${LANGUAGE_ROASTS[language] || `Specializing in one language isn't expertise, it's limitation.`}`);
-  } else if (metrics.languages.length < 3) {
-    roastParts.push(`With only ${metrics.languages.length} languages in your arsenal, you're about as versatile as a one-trick pony.`);
-  }
-  
-  // Activity and productivity
-  if (metrics.commitFrequency < 10) {
-    roastParts.push(`With ${metrics.commitFrequency} commits per month, you code like you're getting paid by the hour and trying to stretch it out.`);
-  }
-  
-  // Emoji usage
-  if (metrics.emojiRatio > 0.5) {
-    const emojiPercent = Math.round(metrics.emojiRatio * 100);
-    roastParts.push(`${emojiPercent}% of your commits contain emojis. This isn't Instagram, it's GitHub. Professional much?`);
-  }
-  
-  // Repository naming
-  const genericNames = repositories.filter(repo => 
-    /^(test|demo|hello|world|project|repo|untitled|new|my|sample)/i.test(repo.name)
-  );
-  if (genericNames.length > 0) {
-    roastParts.push(`Your "${genericNames[0].name}" repository screams originality—oh wait, it doesn't.`);
-  }
-  
-  // Productivity score roast
-  if (metrics.productivityScore <= 3) {
-    roastParts.push(`With a productivity score of ${metrics.productivityScore}/10, you're basically the coding equivalent of a participation trophy.`);
-  } else if (metrics.productivityScore <= 5) {
-    roastParts.push(`A ${metrics.productivityScore}/10 productivity score? You're the embodiment of 'C's get degrees' but for coding.`);
-  }
-  
-  // Empty or abandoned repos
   const emptyRepos = repositories.filter(repo => repo.size === 0);
-  if (emptyRepos.length > 0) {
-    roastParts.push(`${emptyRepos.length} of your repositories are completely empty. That's not minimalism, that's giving up.`);
+  const recentRepos = repositories.filter(repo => {
+    const lastUpdate = new Date(repo.updated_at);
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+    return lastUpdate > sixMonthsAgo;
+  });
+  
+  // Special case for heza-ru (SearDuck's father)
+  if (profile.login.toLowerCase() === 'heza-ru') {
+    return `🦆👑 Ah, ${name}, SearDuck's father has graced us with his presence! Even the creator of the roasting duck cannot escape judgment.\n\nYour ${repoCount} repositories show that even divine beings struggle with consistency. With ${followers} followers, you've proven that being SearDuck's creator doesn't automatically grant popularity among mortals.\n\nYour coding journey since ${joinYear} reads like a tragicomedy - brilliant moments of duck creation followed by the inevitable reality of maintaining legacy code. The duck may respect you as his creator, but your GitHub statistics... well, they're refreshingly human.\n\nEven gods must face the harsh reality of public repositories. At least you gave the world SearDuck - that's worth more than any star count could ever be. 🦆✨`;
   }
   
-  // Final harsh conclusion
-  const finalInsults = [
-    "Congratulations, you've achieved the impossible: making GitHub boring.",
-    "Your GitHub profile is a masterclass in mediocrity.",
-    "You're like that person at parties who stands in the corner holding a beer, pretending to contribute. Spoiler: you're not.",
-    "If coding were an art, you'd be finger painting with your eyes closed.",
-    "Your contribution to the programming community is like a null pointer - technically there, but utterly useless."
+  // INTRODUCTION - Personalized opening based on profile
+  if (!bio && !company && !location) {
+    roastParts.push(`🦆💀 Meet ${name} - the mystery developer! No bio, no company, no location. It's like you're actively trying to be forgettable. Anonymous and mediocre - what a combination!`);
+  } else if (bio && bio.length < 20) {
+    roastParts.push(`🦆💀 ${name}, your ${bio.length}-character bio says more about your lack of personality than a novel ever could. "${bio}" - truly inspiring stuff.`);
+  } else {
+    roastParts.push(`🦆💀 ${name}, ${accountAge} years on GitHub and still counting! Let's see what you've accomplished in your coding journey...`);
+  }
+  
+  // SOCIAL METRICS ANALYSIS
+  const followRatio = following > 0 ? followers / following : followers;
+  if (followers === 0) {
+    roastParts.push(`\n🔍 SOCIAL ANALYSIS: Zero followers. You've achieved the impossible - complete social invisibility in a platform designed for sharing code. Impressive in the worst possible way.`);
+  } else if (followers <= 5 && following > 20) {
+    roastParts.push(`\n🔍 SOCIAL ANALYSIS: Following ${following} people but only ${followers} follow back? That's not networking, that's digital stalking with a 0% success rate.`);
+  } else if (followRatio < 0.1 && followers > 0) {
+    roastParts.push(`\n🔍 SOCIAL ANALYSIS: Your follower-to-following ratio is ${followRatio.toFixed(2)}. You're basically the GitHub equivalent of sliding into DMs and getting left on read.`);
+  } else if (followers < 10) {
+    roastParts.push(`\n🔍 SOCIAL ANALYSIS: ${followers} followers after ${accountAge} years? That's roughly ${(followers/accountAge).toFixed(1)} followers per year. At this rate, you'll reach double digits sometime next decade.`);
+  }
+  
+  // REPOSITORY QUALITY ASSESSMENT
+  if (forkCount > originalRepos.length) {
+    roastParts.push(`\n📁 REPOSITORY AUDIT: ${forkCount} forks vs ${originalRepos.length} original repos. Your GitHub is basically a museum of other people's work. Curating isn't coding, chief.`);
+  }
+  
+  if (emptyRepos.length > 0) {
+    const emptyPercent = Math.round((emptyRepos.length / repoCount) * 100);
+    roastParts.push(`\n📁 REPOSITORY AUDIT: ${emptyRepos.length} completely empty repositories (${emptyPercent}% of your total). That's not minimalism, that's giving up with extra steps.`);
+  }
+  
+  if (totalStars === 0) {
+    roastParts.push(`\n⭐ IMPACT MEASUREMENT: Zero stars across all repositories. You've managed to create code so uninspiring that not even sympathy stars could save it.`);
+  } else if (totalStars < 10) {
+    roastParts.push(`\n⭐ IMPACT MEASUREMENT: ${totalStars} total stars across ${repoCount} repositories. That's an average of ${(totalStars/repoCount).toFixed(2)} stars per repo. Participation trophy level achievement unlocked!`);
+  }
+  
+  // LANGUAGE EXPERTISE ANALYSIS
+  if (metrics.languages.length === 0) {
+    roastParts.push(`\n💻 TECHNICAL ASSESSMENT: No detectable programming languages. Are you sure you're a developer, or did you just get lost on your way to LinkedIn?`);
+  } else if (metrics.languages.length === 1) {
+    const language = metrics.languages[0];
+    const languageRoasts = LANGUAGE_ROASTS[language] || [`Coding exclusively in ${language}? That's not specialization, that's limitation with a fancy name.`];
+    const selectedRoast = languageRoasts[Math.floor(Math.random() * languageRoasts.length)];
+    roastParts.push(`\n💻 TECHNICAL ASSESSMENT: Only ${language}? ${selectedRoast}`);
+  } else if (metrics.languages.length <= 3) {
+    roastParts.push(`\n💻 TECHNICAL ASSESSMENT: ${metrics.languages.join(', ')} - a modest collection. You're like a programmer who only knows three chords but thinks they're a rockstar.`);
+  } else {
+    const mainLanguage = metrics.languages[0];
+    if (LANGUAGE_ROASTS[mainLanguage]) {
+      const languageRoasts = LANGUAGE_ROASTS[mainLanguage];
+      const selectedRoast = languageRoasts[Math.floor(Math.random() * languageRoasts.length)];
+      roastParts.push(`\n💻 TECHNICAL ASSESSMENT: Your main language is ${mainLanguage}. ${selectedRoast} At least you dabble in ${metrics.languages.length - 1} other languages, which is more diversity than your coding style shows.`);
+    }
+  }
+  
+  // ACTIVITY PATTERN ANALYSIS
+  if (metrics.commitFrequency < 5) {
+    roastParts.push(`\n📈 ACTIVITY ANALYSIS: ${metrics.commitFrequency} commits per month? That's not development, that's archaeological preservation. Your code evolves slower than continental drift.`);
+  } else if (metrics.commitFrequency < 15) {
+    roastParts.push(`\n📈 ACTIVITY ANALYSIS: ${metrics.commitFrequency} commits monthly - the perfect pace for someone who codes like they're being charged by the keystroke.`);
+  } else if (metrics.commitFrequency > 100) {
+    roastParts.push(`\n📈 ACTIVITY ANALYSIS: ${metrics.commitFrequency} commits per month? Either you're incredibly productive or you can't figure out how to make meaningful commits. Based on your other stats, I'm guessing the latter.`);
+  }
+  
+  if (recentRepos.length === 0 && repositories.length > 0) {
+    roastParts.push(`\n📈 ACTIVITY ANALYSIS: Zero repositories updated in the last 6 months. You've achieved coding nirvana - complete digital stillness. Or you've just given up.`);
+  }
+  
+  // EMOJI AND PROFESSIONALISM ASSESSMENT
+  if (metrics.emojiRatio > 0.7) {
+    const emojiPercent = Math.round(metrics.emojiRatio * 100);
+    roastParts.push(`\n🎭 PROFESSIONALISM CHECK: ${emojiPercent}% emoji usage in commits. Are you coding or creating a children's book? This is GitHub, not TikTok.`);
+  } else if (metrics.emojiRatio > 0.3) {
+    const emojiPercent = Math.round(metrics.emojiRatio * 100);
+    roastParts.push(`\n🎭 PROFESSIONALISM CHECK: ${emojiPercent}% emoji usage. Someone told you emojis make commits more readable, and you believed them. How charmingly naive.`);
+  }
+  
+  // REPOSITORY NAMING DISASTERS
+  const genericNames = repositories.filter(repo => 
+    /^(test|demo|hello|world|project|repo|untitled|new|my|sample|app|code|stuff|things)/i.test(repo.name)
+  );
+  if (genericNames.length >= 3) {
+    roastParts.push(`\n🏷️ NAMING CONVENTION CRISIS: You have ${genericNames.length} repositories with generic names like "${genericNames.slice(0, 2).map(r => r.name).join('", "')}". Did you outsource your creativity to a random word generator?`);
+  } else if (genericNames.length > 0) {
+    roastParts.push(`\n🏷️ NAMING CONVENTION CRISIS: A repository literally named "${genericNames[0].name}"? Revolutionary. Shakespeare could learn from your poetic repository naming.`);
+  }
+  
+  // PRODUCTIVITY SCORE DEVASTATION
+  if (metrics.productivityScore <= 2) {
+    roastParts.push(`\n🎯 OVERALL VERDICT: Productivity score ${metrics.productivityScore}/10. You've achieved what many thought impossible - negative contribution to the programming ecosystem. Congratulations, you're a human git reset --hard.`);
+  } else if (metrics.productivityScore <= 4) {
+    roastParts.push(`\n🎯 OVERALL VERDICT: Productivity score ${metrics.productivityScore}/10. You're like a participation trophy in human form - technically present, but that's about it.`);
+  } else if (metrics.productivityScore <= 6) {
+    roastParts.push(`\n🎯 OVERALL VERDICT: Productivity score ${metrics.productivityScore}/10. Solidly mediocre - you're the lukewarm coffee of the programming world.`);
+  } else if (metrics.productivityScore <= 8) {
+    roastParts.push(`\n🎯 OVERALL VERDICT: Productivity score ${metrics.productivityScore}/10. Actually not terrible! Still room for improvement, but you're approaching 'competent' territory.`);
+  } else {
+    roastParts.push(`\n🎯 OVERALL VERDICT: Productivity score ${metrics.productivityScore}/10. Impressive! You've managed to game the system or you're actually good at this. SearDuck is suspiciously pleased.`);
+  }
+  
+  // FINAL BRUTAL CONCLUSION
+  const personalizedFinalInsults = [
+    "Your GitHub profile is like a haunted house - lots of empty rooms and nothing but disappointment.",
+    "If your code were a movie, it would be a direct-to-video sequel nobody asked for.",
+    "You're the coding equivalent of elevator music - technically functional, but nobody wants to experience it.",
+    "Your programming style is like your personality - bland, predictable, and best experienced in small doses.",
+    "If GitHub had a participation award, you'd be the template for the certificate.",
+    "You code like you're trying to solve world hunger with a teaspoon - admirable intentions, questionable methods.",
+    "Your repositories are like your dating life - lots of attempts, minimal success, and everyone's too polite to mention it."
   ];
   
-  roastParts.push(finalInsults[Math.floor(Math.random() * finalInsults.length)]);
+  // Add personalized final insult based on specific metrics
+  if (followers === 0 && totalStars === 0) {
+    roastParts.push(`\n\n🔥 FINAL JUDGMENT: Zero followers, zero stars, infinite disappointment. You've achieved perfect social and technical invisibility. You're not just a ghost in the machine - you're a ghost that even other ghosts ignore.`);
+  } else if (forkCount > originalRepos.length * 3) {
+    roastParts.push(`\n\n🔥 FINAL JUDGMENT: Your GitHub is 75% other people's work. You're not a developer, you're a digital hoarder with commitment issues.`);
+  } else {
+    const randomInsult = personalizedFinalInsults[Math.floor(Math.random() * personalizedFinalInsults.length)];
+    roastParts.push(`\n\n🔥 FINAL JUDGMENT: ${randomInsult}\n\nRemember: every expert was once a beginner, but not every beginner becomes an expert. You're living proof of the latter. 🦆💀`);
+  }
   
   return roastParts.join(' ');
 }
@@ -278,39 +402,119 @@ function calculateMetrics(profile, repositories) {
   const monthsSinceJoined = Math.max(1, (Date.now() - new Date(profile.created_at)) / (1000 * 60 * 60 * 24 * 30));
   const commitFrequency = parseFloat((totalCommits / monthsSinceJoined).toFixed(1));
 
-  const languages = [...new Set(repositories
-    .map(repo => repo.language)
-    .filter(lang => lang)
-  )].slice(0, 5);
+  // Enhanced language analysis with popularity ranking
+  const languageStats = {};
+  repositories.forEach(repo => {
+    if (repo.language) {
+      languageStats[repo.language] = (languageStats[repo.language] || 0) + 1;
+    }
+  });
+  
+  const languages = Object.entries(languageStats)
+    .sort(([,a], [,b]) => b - a)
+    .map(([lang]) => lang)
+    .slice(0, 8); // Increased to 8 for better analysis
 
+  // Enhanced emoji analysis - check repository names AND descriptions
   const repoNames = repositories.map(repo => repo.name.toLowerCase());
+  const repoDescriptions = repositories.map(repo => (repo.description || '').toLowerCase());
   const emojiPattern = /[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu;
+  
   const totalRepos = repositories.length;
   const emojiRepos = repoNames.filter(name => emojiPattern.test(name)).length;
-  const emojiRatio = totalRepos > 0 ? emojiRepos / totalRepos : 0;
+  const emojiDescriptions = repoDescriptions.filter(desc => emojiPattern.test(desc)).length;
+  const emojiRatio = totalRepos > 0 ? (emojiRepos + emojiDescriptions) / (totalRepos * 2) : 0;
 
+  // Calculate additional metrics for enhanced roasting
+  const totalStars = repositories.reduce((sum, repo) => sum + repo.stargazers_count, 0);
+  const totalForks = repositories.reduce((sum, repo) => sum + repo.forks_count, 0);
+  const totalWatchers = repositories.reduce((sum, repo) => sum + repo.watchers_count, 0);
+  const forkCount = repositories.filter(repo => repo.fork).length;
+  const originalRepos = repositories.filter(repo => !repo.fork);
+  const emptyRepos = repositories.filter(repo => repo.size === 0);
+  const archivedRepos = repositories.filter(repo => repo.archived);
+  
+  // Calculate repository activity patterns
+  const now = new Date();
+  const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+  const sixMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 6, now.getDate());
+  const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
+  
+  const recentRepos = repositories.filter(repo => new Date(repo.updated_at) > oneMonthAgo);
+  const staleRepos = repositories.filter(repo => new Date(repo.updated_at) < oneYearAgo);
+  
+  // Analyze repository naming patterns
+  const genericNamePattern = /^(test|demo|hello|world|project|repo|untitled|new|my|sample|app|code|stuff|things|practice|learning|tutorial)/i;
+  const genericNames = repositories.filter(repo => genericNamePattern.test(repo.name));
+  
+  // Calculate enhanced productivity score with more factors
   let productivityScore = 5;
-  if (commitFrequency > 50) productivityScore += 2;
+  
+  // Commit frequency scoring
+  if (commitFrequency > 100) productivityScore += 3;
+  else if (commitFrequency > 50) productivityScore += 2;
   else if (commitFrequency > 20) productivityScore += 1;
   else if (commitFrequency < 5) productivityScore -= 2;
+  else if (commitFrequency < 1) productivityScore -= 3;
 
-  if (languages.length > 5) productivityScore += 1;
-  else if (languages.length <= 1) productivityScore -= 1;
+  // Language diversity scoring
+  if (languages.length > 7) productivityScore += 2;
+  else if (languages.length > 5) productivityScore += 1;
+  else if (languages.length <= 1) productivityScore -= 2;
+  else if (languages.length === 0) productivityScore -= 3;
 
-  if (profile.followers > 100) productivityScore += 1;
+  // Social impact scoring
+  if (profile.followers > 500) productivityScore += 3;
+  else if (profile.followers > 100) productivityScore += 2;
+  else if (profile.followers > 50) productivityScore += 1;
   else if (profile.followers < 5) productivityScore -= 1;
+  else if (profile.followers === 0) productivityScore -= 2;
 
-  const totalStars = repositories.reduce((sum, repo) => sum + repo.stargazers_count, 0);
-  if (totalStars > 50) productivityScore += 1;
+  // Star count scoring
+  if (totalStars > 500) productivityScore += 3;
+  else if (totalStars > 100) productivityScore += 2;
+  else if (totalStars > 50) productivityScore += 1;
   else if (totalStars === 0) productivityScore -= 1;
 
+  // Repository quality scoring
+  const forkRatio = totalRepos > 0 ? forkCount / totalRepos : 0;
+  if (forkRatio > 0.7) productivityScore -= 2; // Too many forks
+  if (emptyRepos.length > totalRepos * 0.3) productivityScore -= 1; // Too many empty repos
+  if (genericNames.length > totalRepos * 0.5) productivityScore -= 1; // Too many generic names
+  if (archivedRepos.length > totalRepos * 0.4) productivityScore -= 1; // Too many archived
+  
+  // Activity pattern scoring
+  if (recentRepos.length === 0 && totalRepos > 0) productivityScore -= 1; // No recent activity
+  if (staleRepos.length > totalRepos * 0.6) productivityScore -= 1; // Too many stale repos
+
+  // Profile completeness scoring
+  if (!profile.bio) productivityScore -= 1;
+  if (!profile.location && !profile.company) productivityScore -= 1;
+  
   productivityScore = Math.max(1, Math.min(10, productivityScore));
 
   return {
     commitFrequency,
     emojiRatio,
     languages,
-    productivityScore
+    productivityScore,
+    // Additional metrics for enhanced roasting
+    totalStars,
+    totalForks,
+    totalWatchers,
+    followers: profile.followers,
+    following: profile.following,
+    totalRepos: totalRepos,
+    originalRepos: originalRepos.length,
+    forkCount,
+    emptyRepos: emptyRepos.length,
+    archivedRepos: archivedRepos.length,
+    recentRepos: recentRepos.length,
+    staleRepos: staleRepos.length,
+    genericNames: genericNames.length,
+    accountAge: Math.floor((now - new Date(profile.created_at)) / (365 * 24 * 60 * 60 * 1000)),
+    hasProfile: !!(profile.bio || profile.location || profile.company),
+    forkRatio: forkRatio
   };
 }
 

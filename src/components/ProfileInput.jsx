@@ -189,10 +189,10 @@ const ProfileInput = ({ onRoastRequest, error }) => {
             </button>
             
             <button
-              onClick={() => handleSampleUser('demo')}
+              onClick={() => handleSampleUser('heza-ru')}
               style={{
-                background: 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)',
-                border: '3px solid rgba(16, 185, 129, 0.8)',
+                background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)',
+                border: '3px solid rgba(139, 92, 246, 0.8)',
                 color: 'white',
                 padding: '1rem 1.5rem',
                 fontSize: '0.9rem',
@@ -202,22 +202,22 @@ const ProfileInput = ({ onRoastRequest, error }) => {
                 position: 'relative',
                 overflow: 'hidden',
                 clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
-                boxShadow: '0 8px 25px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 8px 25px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
               }}
               onMouseEnter={(e) => {
-                e.target.style.background = 'linear-gradient(135deg, #34d399 0%, #10b981 50%, #059669 100%)';
+                e.target.style.background = 'linear-gradient(135deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%)';
                 e.target.style.transform = 'translateY(-2px)';
-                e.target.style.boxShadow = '0 12px 35px rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
+                e.target.style.boxShadow = '0 12px 35px rgba(139, 92, 246, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.3)';
               }}
               onMouseLeave={(e) => {
-                e.target.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%)';
+                e.target.style.background = 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%)';
                 e.target.style.transform = 'translateY(0)';
-                e.target.style.boxShadow = '0 8px 25px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+                e.target.style.boxShadow = '0 8px 25px rgba(139, 92, 246, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
               }}
             >
               <div style={{ position: 'relative', zIndex: 1 }}>
-                demo
-                <div style={{ fontSize: '0.6rem', opacity: 0.9, marginTop: '0.2rem' }}>Safe Mode</div>
+                heza-ru
+                <div style={{ fontSize: '0.6rem', opacity: 0.9, marginTop: '0.2rem' }}>🦆 Duck Father</div>
               </div>
             </button>
           </div>

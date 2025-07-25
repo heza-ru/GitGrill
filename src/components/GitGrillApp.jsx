@@ -100,6 +100,57 @@ const GitGrillApp = () => {
     >
       <PixelStars />
       
+      {/* GitHub Star Button - Top Right */}
+      <div style={{
+        position: 'fixed',
+        top: '20px',
+        right: '20px',
+        zIndex: 1000,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '0.5rem',
+      }}>
+        <a
+          href="https://github.com/heza-ru/GitGrill"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.75rem 1rem',
+            background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.8) 0%, rgba(20, 20, 20, 0.9) 100%)',
+            backdropFilter: 'blur(10px)',
+            border: '2px solid rgba(34, 211, 238, 0.6)',
+            borderRadius: '8px',
+            color: '#22d3ee',
+            textDecoration: 'none',
+            fontFamily: "'Press Start 2P', cursive",
+            fontSize: '0.6rem',
+            fontWeight: 'bold',
+            textShadow: '0 0 10px rgba(34, 211, 238, 0.5)',
+            boxShadow: '0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+            transition: 'all 0.3s ease',
+            clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.transform = 'translateY(-2px) scale(1.05)';
+            e.target.style.boxShadow = '0 12px 35px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.2)';
+            e.target.style.borderColor = 'rgba(34, 211, 238, 0.9)';
+            e.target.style.textShadow = '0 0 15px rgba(34, 211, 238, 0.8)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.transform = 'translateY(0px) scale(1)';
+            e.target.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1)';
+            e.target.style.borderColor = 'rgba(34, 211, 238, 0.6)';
+            e.target.style.textShadow = '0 0 10px rgba(34, 211, 238, 0.5)';
+          }}
+        >
+          <span style={{ fontSize: '0.8rem' }}>⭐</span>
+          <span>STAR ON GITHUB</span>
+        </a>
+      </div>
+      
       {/* MAIN CONTAINER - FORCED CENTER */}
       <div className="main-container" style={{
         width: '100%',
