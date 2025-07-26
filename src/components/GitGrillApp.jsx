@@ -50,7 +50,12 @@ const GitGrillApp = () => {
     setRoastData(null);
 
     try {
-      const response = await fetch('/.netlify/functions/github-roast', {
+      // Add dramatic delay to let the enhanced loading animation play
+      const minimumLoadingTime = 9000; // 9 seconds for full loading experience
+      const startTime = Date.now();
+      
+      // Start the actual roast request
+      const roastPromise = fetch('/.netlify/functions/github-roast', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -58,11 +63,24 @@ const GitGrillApp = () => {
         body: JSON.stringify({ username }),
       });
 
+      // Wait for both the API call and minimum loading time
+      const [response] = await Promise.all([
+        roastPromise,
+        new Promise(resolve => {
+          const elapsed = Date.now() - startTime;
+          const remainingTime = Math.max(0, minimumLoadingTime - elapsed);
+          setTimeout(resolve, remainingTime);
+        })
+      ]);
+
       const data = await response.json();
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to roast');
       }
+
+      // Add a final dramatic pause before revealing the roast
+      await new Promise(resolve => setTimeout(resolve, 1000));
 
       setRoastData(data);
     } catch (err) {

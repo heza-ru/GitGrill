@@ -1,29 +1,372 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import SocialShare from './SocialShare';
 
+// Enhanced sound effects library using Web Audio API
+const createOscillator = (audioContext, frequency, duration, volume = 0.1) => {
+  const oscillator = audioContext.createOscillator();
+  const gainNode = audioContext.createGain();
+  
+  oscillator.connect(gainNode);
+  gainNode.connect(audioContext.destination);
+  
+  oscillator.frequency.value = frequency;
+  gainNode.gain.setValueAtTime(volume, audioContext.currentTime);
+  gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+  
+  return { oscillator, gainNode };
+};
+
+const playDuckSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const { oscillator, gainNode } = createOscillator(audioContext, 800, 0.1);
+      
+      // Create a "quack" sound
+      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playTriumphSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Victory fanfare sequence
+      const notes = [523, 659, 784, 1047]; // C5, E5, G5, C6
+      notes.forEach((freq, index) => {
+        const { oscillator } = createOscillator(audioContext, freq, 0.2, 0.08);
+        oscillator.start(audioContext.currentTime + index * 0.1);
+        oscillator.stop(audioContext.currentTime + (index * 0.1) + 0.2);
+      });
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playFailSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const { oscillator } = createOscillator(audioContext, 400, 0.5);
+      
+      // Sad trombone effect
+      oscillator.frequency.exponentialRampToValueAtTime(200, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playBeepSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const { oscillator } = createOscillator(audioContext, 1000, 0.1, 0.05);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playBubbleSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Create bubble pop effect
+      for (let i = 0; i < 3; i++) {
+        const freq = 800 + (i * 200);
+        const { oscillator } = createOscillator(audioContext, freq, 0.1, 0.03);
+        oscillator.start(audioContext.currentTime + i * 0.05);
+        oscillator.stop(audioContext.currentTime + (i * 0.05) + 0.1);
+      }
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playChirpSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const { oscillator } = createOscillator(audioContext, 1500, 0.2);
+      
+      // Chirp effect - frequency sweep
+      oscillator.frequency.exponentialRampToValueAtTime(3000, audioContext.currentTime + 0.1);
+      oscillator.frequency.exponentialRampToValueAtTime(1000, audioContext.currentTime + 0.2);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.2);
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playWarningSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Warning alarm pattern
+      for (let i = 0; i < 3; i++) {
+        const { oscillator } = createOscillator(audioContext, 800, 0.1, 0.06);
+        oscillator.start(audioContext.currentTime + i * 0.15);
+        oscillator.stop(audioContext.currentTime + (i * 0.15) + 0.1);
+      }
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playPowerUpSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const { oscillator } = createOscillator(audioContext, 200, 0.5);
+      
+      // Power up sweep
+      oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.5);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playGlitchSound = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      
+      // Random glitch effect
+      for (let i = 0; i < 5; i++) {
+        const freq = Math.random() * 1000 + 200;
+        const { oscillator } = createOscillator(audioContext, freq, 0.05, 0.04);
+        oscillator.start(audioContext.currentTime + i * 0.03);
+        oscillator.stop(audioContext.currentTime + (i * 0.03) + 0.05);
+      }
+    } catch (error) {
+      console.log('Audio not supported or failed');
+    }
+  }
+};
+
+const playRandomSound = () => {
+  const sounds = [
+    playDuckSound, playBeepSound, playBubbleSound, playChirpSound, 
+    playWarningSound, playPowerUpSound, playGlitchSound
+  ];
+  const randomSound = sounds[Math.floor(Math.random() * sounds.length)];
+  randomSound();
+};
+
 const RoastDisplay = ({ data, onNewRoast }) => {
-  // Duck Classification System
+  const [hasPlayedSound, setHasPlayedSound] = useState(false);
+  
+  // Dynamic Duck Classification System with personality traits
   const getDuckClassification = (metrics) => {
     const { productivityScore, commitFrequency, languages, emojiRatio } = metrics;
     
-    if (productivityScore >= 8) {
-      return { type: "ALPHA DUCK", color: "#ffd700", icon: "👑" };
-    } else if (productivityScore >= 6) {
-      return { type: "SENIOR DUCK", color: "#10b981", icon: "🎯" };
-    } else if (productivityScore >= 4) {
-      return { type: "JUNIOR DUCK", color: "#3b82f6", icon: "🌟" };
-    } else if (commitFrequency < 5) {
-      return { type: "FOSSIL DUCK", color: "#6b7280", icon: "🦴" };
-    } else if (languages.length <= 1) {
-      return { type: "ONE-TRICK DUCK", color: "#f59e0b", icon: "🥱" };
-    } else if (emojiRatio > 0.7) {
-      return { type: "EMOJI DUCK", color: "#ec4899", icon: "😵" };
-    } else {
-      return { type: "RUBBER DUCK", color: "#ef4444", icon: "🦆" };
+    // Calculate additional personality metrics for more dynamic classification
+    const isMultiLingual = languages.length >= 3;
+    const isHyperActive = commitFrequency > 50;
+    const isConsistent = commitFrequency >= 15 && commitFrequency <= 40;
+    const isMinimalist = emojiRatio === 0;
+    const isExpressive = emojiRatio > 0.3;
+    const isExperienced = productivityScore >= 5;
+    
+    // Personality-based classifications (these can override score-based ones)
+    const personalityTypes = [];
+    
+    // Add personality classifications based on behavior patterns
+    if (commitFrequency < 3) {
+      personalityTypes.push({ type: "GHOST DUCK", color: "#6b7280", icon: "👻", description: "Mysteriously absent" });
+      personalityTypes.push({ type: "FOSSIL DUCK", color: "#8b5a3c", icon: "🦴", description: "Ancient artifact" });
+      personalityTypes.push({ type: "HIBERNATING DUCK", color: "#92400e", icon: "😴", description: "In deep sleep mode" });
     }
+    
+    if (isHyperActive && isMultiLingual) {
+      personalityTypes.push({ type: "CAFFEINATED DUCK", color: "#dc2626", icon: "☕", description: "Powered by espresso" });
+      personalityTypes.push({ type: "POLYGLOT DUCK", color: "#7c3aed", icon: "🗣️", description: "Speaks all languages" });
+    }
+    
+    if (languages.length === 1 && productivityScore < 6) {
+      const languageTypes = [
+        { type: "SPECIALIST DUCK", color: "#f59e0b", icon: "🎯", description: "Master of one trade" },
+        { type: "PURIST DUCK", color: "#dc2626", icon: "⚔️", description: "Language loyalist" },
+        { type: "STUBBORN DUCK", color: "#7c2d12", icon: "🗿", description: "Refuses to evolve" }
+      ];
+      personalityTypes.push(...languageTypes);
+    }
+    
+    if (emojiRatio > 0.7) {
+      personalityTypes.push({ type: "EMOJI DUCK", color: "#ec4899", icon: "😵", description: "Expressive communicator" });
+      personalityTypes.push({ type: "THEATRICAL DUCK", color: "#db2777", icon: "🎭", description: "Drama in every commit" });
+    }
+    
+    if (isMinimalist && isExperienced) {
+      personalityTypes.push({ type: "ZEN DUCK", color: "#059669", icon: "🧘", description: "Minimalist master" });
+      personalityTypes.push({ type: "STOIC DUCK", color: "#374151", icon: "🗿", description: "Silent but deadly" });
+    }
+    
+    if (isConsistent && isMultiLingual) {
+      personalityTypes.push({ type: "PROFESSIONAL DUCK", color: "#1f2937", icon: "💼", description: "Corporate code warrior" });
+      personalityTypes.push({ type: "ARCHITECT DUCK", color: "#4338ca", icon: "🏗️", description: "System designer" });
+    }
+    
+    if (commitFrequency > 100) {
+      personalityTypes.push({ type: "WORKAHOLIC DUCK", color: "#b91c1c", icon: "🔥", description: "Never stops coding" });
+      personalityTypes.push({ type: "COMMIT SPAMMER", color: "#ea580c", icon: "📢", description: "Quantity over quality" });
+    }
+    
+    if (productivityScore < 2 && commitFrequency < 10) {
+      personalityTypes.push({ type: "LURKER DUCK", color: "#6b7280", icon: "👀", description: "Watching from shadows" });
+      personalityTypes.push({ type: "PROCRASTINATOR", color: "#92400e", icon: "⏰", description: "Tomorrow's developer" });
+    }
+    
+    // Add random personality quirks
+    const quirkTypes = [
+      { type: "NIGHT OWL DUCK", color: "#312e81", icon: "🦉", description: "Codes at 3 AM" },
+      { type: "PERFECTIONIST", color: "#7c3aed", icon: "✨", description: "Refactors everything" },
+      { type: "COPY-PASTA DUCK", color: "#dc2626", icon: "📋", description: "Stack Overflow warrior" },
+      { type: "INDIE DUCK", color: "#059669", icon: "🎸", description: "Too cool for frameworks" },
+      { type: "DEBUGGING DUCK", color: "#b45309", icon: "🔍", description: "Bug hunter extraordinaire" },
+      { type: "README DUCK", color: "#0891b2", icon: "📖", description: "Documentation enthusiast" },
+      { type: "WEEKEND WARRIOR", color: "#be123c", icon: "⚔️", description: "Side project hero" }
+    ];
+    
+    // Add quirks based on random chance and metrics
+    if (Math.random() < 0.3 || personalityTypes.length === 0) {
+      personalityTypes.push(...quirkTypes.filter(() => Math.random() < 0.2));
+    }
+    
+    // If we have personality types, randomly select one
+    if (personalityTypes.length > 0) {
+      const selectedPersonality = personalityTypes[Math.floor(Math.random() * personalityTypes.length)];
+      return selectedPersonality;
+    }
+    
+    // Fallback to enhanced score-based classification with randomization
+    const scoreBasedTypes = [];
+    
+    if (productivityScore >= 9) {
+      scoreBasedTypes.push(
+        { type: "LEGENDARY DUCK", color: "#ff6b6b", icon: "🔥", description: "Mythical coding deity" },
+        { type: "CODE DEMIGOD", color: "#dc2626", icon: "⚡", description: "Ascended developer" },
+        { type: "SILICON SAINT", color: "#7c2d12", icon: "👑", description: "Blessed by algorithms" }
+      );
+    } else if (productivityScore >= 8.5) {
+      scoreBasedTypes.push(
+        { type: "GODLIKE DUCK", color: "#4ecdc4", icon: "⚡", description: "Transcendent developer" },
+        { type: "APEX CODER", color: "#0891b2", icon: "🦅", description: "Peak performance" }
+      );
+    } else if (productivityScore >= 7.5) {
+      scoreBasedTypes.push(
+        { type: "ALPHA DUCK", color: "#ffd700", icon: "👑", description: "Apex predator" },
+        { type: "CHAMPION DUCK", color: "#ca8a04", icon: "🏆", description: "Competition winner" },
+        { type: "SENIOR ARCHITECT", color: "#a16207", icon: "🎯", description: "System mastermind" }
+      );
+    } else if (productivityScore >= 6.5) {
+      scoreBasedTypes.push(
+        { type: "ELITE DUCK", color: "#a78bfa", icon: "💎", description: "Top-tier talent" },
+        { type: "VETERAN CODER", color: "#7c3aed", icon: "🎖️", description: "Battle-tested" },
+        { type: "SENIOR DUCK", color: "#5b21b6", icon: "🎯", description: "Experienced professional" }
+      );
+    } else if (productivityScore >= 5.5) {
+      scoreBasedTypes.push(
+        { type: "SENIOR DUCK", color: "#10b981", icon: "🎯", description: "Experienced professional" },
+        { type: "RELIABLE DUCK", color: "#059669", icon: "⚙️", description: "Steady contributor" },
+        { type: "TEAM LEAD DUCK", color: "#047857", icon: "👥", description: "Guides the flock" }
+      );
+    } else if (productivityScore >= 4.5) {
+      scoreBasedTypes.push(
+        { type: "MID-LEVEL DUCK", color: "#06b6d4", icon: "⚙️", description: "Competent contributor" },
+        { type: "SOLID DUCK", color: "#0891b2", icon: "🔧", description: "Gets stuff done" },
+        { type: "GROWING DUCK", color: "#0e7490", icon: "📈", description: "On the rise" }
+      );
+    } else if (productivityScore >= 3.5) {
+      scoreBasedTypes.push(
+        { type: "JUNIOR DUCK", color: "#3b82f6", icon: "🌟", description: "Growing developer" },
+        { type: "EAGER DUCK", color: "#2563eb", icon: "🚀", description: "Full of potential" },
+        { type: "PROMISING DUCK", color: "#1d4ed8", icon: "✨", description: "Future looks bright" }
+      );
+    } else if (productivityScore >= 2.5) {
+      scoreBasedTypes.push(
+        { type: "INTERN DUCK", color: "#8b5cf6", icon: "📚", description: "Learning the ropes" },
+        { type: "STUDENT DUCK", color: "#7c3aed", icon: "🎓", description: "Academic achiever" },
+        { type: "APPRENTICE DUCK", color: "#6d28d9", icon: "🧑‍🎓", description: "Under tutelage" }
+      );
+    } else if (productivityScore >= 1.5) {
+      scoreBasedTypes.push(
+        { type: "TRAINEE DUCK", color: "#f97316", icon: "🥚", description: "Just hatched" },
+        { type: "NEWBIE DUCK", color: "#ea580c", icon: "👶", description: "Fresh to the game" },
+        { type: "ROOKIE DUCK", color: "#dc2626", icon: "🐣", description: "First steps" }
+      );
+    } else {
+      scoreBasedTypes.push(
+        { type: "RUBBER DUCK", color: "#ef4444", icon: "🦆", description: "Debugging companion" },
+        { type: "SQUEAKY DUCK", color: "#dc2626", icon: "🔊", description: "Makes noise, no code" },
+        { type: "BATH DUCK", color: "#f59e0b", icon: "🛁", description: "Enjoys clean code" }
+      );
+    }
+    
+    // Randomly select from available score-based types
+    return scoreBasedTypes[Math.floor(Math.random() * scoreBasedTypes.length)];
   };
 
   const classification = getDuckClassification(data.metrics);
+  
+  // Play sound effect based on duck classification and personality
+  useEffect(() => {
+    if (!hasPlayedSound) {
+      const timer = setTimeout(() => {
+        // Select sound based on duck classification type
+        const classType = classification.type;
+        
+        if (classType.includes('LEGENDARY') || classType.includes('GODLIKE')) {
+          playTriumphSound(); // Epic victory for legends
+        } else if (classType.includes('ALPHA') || classType.includes('ELITE')) {
+          playPowerUpSound(); // Power up for high achievers
+        } else if (classType.includes('CAFFEINATED') || classType.includes('WORKAHOLIC')) {
+          playWarningSound(); // Alert sound for hyperactive types
+        } else if (classType.includes('GHOST') || classType.includes('LURKER')) {
+          playGlitchSound(); // Glitch for mysterious types
+        } else if (classType.includes('POLYGLOT') || classType.includes('PROFESSIONAL')) {
+          playChirpSound(); // Chirp for skilled types
+        } else if (classType.includes('TRAINEE') || classType.includes('NEWBIE')) {
+          playBubbleSound(); // Bubble for beginners
+        } else if (data.metrics.productivityScore <= 2) {
+          playFailSound(); // Sad trombone for low scores
+        } else {
+          playDuckSound(); // Default duck quack
+        }
+        setHasPlayedSound(true);
+      }, 1500); // Increased delay for more dramatic effect
+      
+      return () => clearTimeout(timer);
+    }
+  }, [classification.type, data.metrics.productivityScore, hasPlayedSound]);
+  
+
 
   return (
     <div style={{ 
@@ -92,6 +435,16 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                   }}>
                     {classification.type}
                   </div>
+                  <div style={{
+                    fontSize: window.innerWidth <= 480 ? '0.5rem' : '0.6rem',
+                    color: '#a1a1aa',
+                    fontFamily: "'JetBrains Mono', monospace",
+                    marginTop: '0.3rem',
+                    fontStyle: 'italic',
+                    textAlign: 'center',
+                  }}>
+                    "{classification.description}"
+                  </div>
                 </div>
               </div>
             </div>
@@ -147,78 +500,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
               </div>
             </div>
 
-            {/* Roast Severity Meter */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.8)',
-              backdropFilter: 'blur(8px)',
-              border: '2px solid rgba(239, 68, 68, 0.6)',
-              padding: '1.5rem',
-              marginBottom: '2rem',
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
-              imageRendering: 'pixelated',
-              clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
-            }}>
-              <div className="pixel-font" style={{
-                color: '#ef4444',
-                fontSize: '0.8rem',
-                marginBottom: '1rem',
-                textAlign: 'center',
-                textShadow: '0 0 10px rgba(239, 68, 68, 0.5)',
-              }}>
-                🌡️ ROAST SEVERITY METER
-              </div>
-              <div style={{
-                background: 'rgba(0, 0, 0, 0.7)',
-                border: '2px solid rgba(239, 68, 68, 0.6)',
-                height: '1.5rem',
-                position: 'relative',
-                overflow: 'hidden',
-                imageRendering: 'pixelated',
-                clipPath: 'polygon(0px 2px, 2px 2px, 2px 0px, calc(100% - 2px) 0px, calc(100% - 2px) 2px, 100% 2px, 100% calc(100% - 2px), calc(100% - 2px) calc(100% - 2px), calc(100% - 2px) 100%, 2px 100%, 2px calc(100% - 2px), 0px calc(100% - 2px))',
-              }}>
-                <div style={{
-                  width: `${Math.min(95, (10 - data.metrics.productivityScore) * 10 + 20)}%`,
-                  height: '100%',
-                  background: data.metrics.productivityScore <= 3 
-                    ? 'linear-gradient(90deg, #dc2626 0%, #ef4444 30%, #f87171 50%, #ef4444 70%, #dc2626 100%)' 
-                    : data.metrics.productivityScore <= 6 
-                    ? 'linear-gradient(90deg, #d97706 0%, #f59e0b 30%, #fbbf24 50%, #f59e0b 70%, #d97706 100%)' 
-                    : 'linear-gradient(90deg, #059669 0%, #10b981 30%, #34d399 50%, #10b981 70%, #059669 100%)',
-                  transition: 'width 1s ease',
-                  boxShadow: data.metrics.productivityScore <= 3 
-                    ? '0 0 20px rgba(220, 38, 38, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3)' 
-                    : data.metrics.productivityScore <= 6 
-                    ? '0 0 20px rgba(217, 119, 6, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3)' 
-                    : '0 0 20px rgba(5, 150, 105, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.3)',
-                  position: 'relative',
-                }}>
-                  {/* Animated shine effect */}
-                  <div style={{
-                    position: 'absolute',
-                    top: 0,
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.3) 50%, transparent 100%)',
-                    animation: 'shine 2s infinite',
-                  }} />
-                </div>
-                <div style={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  fontFamily: "'Press Start 2P', cursive",
-                  fontSize: '0.6rem',
-                  color: 'white',
-                  textShadow: '0 0 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(255, 255, 255, 0.5)',
-                  zIndex: 2,
-                }}>
-                  {data.metrics.productivityScore <= 3 ? '🔥 NUCLEAR' :
-                   data.metrics.productivityScore <= 6 ? '⚠️ BRUTAL' : '😅 MILD'}
-                </div>
-              </div>
-            </div>
+
 
             {/* Targeted Tid-bits */}
             <div style={{
@@ -256,15 +538,15 @@ const RoastDisplay = ({ data, onNewRoast }) => {
               >
                 {/* Language Burn */}
                 {data.metrics.languages.length > 0 && (
-                                      <div style={{
-                      background: 'rgba(0, 0, 0, 0.7)',
-                      border: '1px solid rgba(59, 130, 246, 0.4)',
-                      padding: '1rem',
-                      clipPath: 'polygon(0px 3px, 3px 3px, 3px 0px, calc(100% - 3px) 0px, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0px calc(100% - 3px))',
+                  <div style={{
+                    background: 'rgba(0, 0, 0, 0.7)',
+                    border: '1px solid rgba(59, 130, 246, 0.4)',
+                    padding: '1rem',
+                    clipPath: 'polygon(0px 3px, 3px 3px, 3px 0px, calc(100% - 3px) 0px, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0px calc(100% - 3px))',
                       overflow: 'hidden',
                       wordWrap: 'break-word',
                       boxSizing: 'border-box',
-                    }}>
+                  }}>
                     <div style={{ fontSize: '1rem', marginBottom: '0.5rem', textAlign: 'center' }}>💻</div>
                     <div className="pixel-font" style={{ fontSize: '0.6rem', color: '#60a5fa', marginBottom: '0.5rem', textAlign: 'center' }}>
                       LANGUAGE CHOICE
@@ -364,12 +646,12 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                 }}>
                   {(() => {
                     const wisdomQuotes = [
-                      `"Code quality is like a duck's quack - if no one hears it, does it really exist?"`,
-                      `"The best way to debug code is to explain it to a rubber duck. You clearly need more ducks."`,
-                      `"Your code commits are like duck eggs - they look promising until they hatch."`,
-                      `"A programmer without tests is like a duck without water - technically functional but missing the point."`,
-                      `"Your repository is like a pond - looks calm on the surface but chaos underneath."`,
-                      `"Good code is like a duck's landing - it looks effortless but requires skill you clearly lack."`,
+                    `"Code quality is like a duck's quack - if no one hears it, does it really exist?"`,
+                    `"The best way to debug code is to explain it to a rubber duck. You clearly need more ducks."`,
+                    `"Your code commits are like duck eggs - they look promising until they hatch."`,
+                    `"A programmer without tests is like a duck without water - technically functional but missing the point."`,
+                    `"Your repository is like a pond - looks calm on the surface but chaos underneath."`,
+                    `"Good code is like a duck's landing - it looks effortless but requires skill you clearly lack."`,
                       `"Your GitHub profile is like a duck in winter - cold, barren, and nobody wants to visit."`,
                       `"Documentation is like a duck's nest - everyone knows it should be there, but nobody wants to build it."`,
                       `"Your code reviews are like watching a duck try to fly backwards - painful and pointless."`,
@@ -421,64 +703,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
               </div>
             </div>
 
-            {/* Performance Comparison */}
-            <div style={{
-              background: 'rgba(0, 0, 0, 0.7)',
-              backdropFilter: 'blur(8px)',
-              border: '2px solid rgba(34, 211, 238, 0.6)',
-              padding: '1.5rem',
-              marginBottom: '2rem',
-              boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
-              imageRendering: 'pixelated',
-              clipPath: 'polygon(0px 4px, 4px 4px, 4px 0px, calc(100% - 4px) 0px, calc(100% - 4px) 4px, 100% 4px, 100% calc(100% - 4px), calc(100% - 4px) calc(100% - 4px), calc(100% - 4px) 100%, 4px 100%, 4px calc(100% - 4px), 0px calc(100% - 4px))',
-            }}>
-              <div className="pixel-font" style={{
-                color: '#22d3ee',
-                fontSize: '0.8rem',
-                marginBottom: '1rem',
-                textAlign: 'center',
-                textShadow: '0 0 10px rgba(34, 211, 238, 0.5)',
-              }}>
-                📊 YOU VS THE WORLD
-              </div>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-                gap: '1rem',
-                width: '100%',
-                overflow: 'hidden',
-              }}>
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>📉</div>
-                  <div className="pixel-font" style={{ fontSize: '0.6rem', color: '#22d3ee', marginBottom: '0.5rem' }}>
-                    PERCENTILE RANK
-                  </div>
-                  <div style={{ fontSize: '1.2rem', color: 'white', fontWeight: 'bold' }}>
-                    {data.metrics.productivityScore <= 3 ? 'BOTTOM 5%' :
-                     data.metrics.productivityScore <= 5 ? 'BOTTOM 25%' :
-                     data.metrics.productivityScore <= 7 ? 'BOTTOM 50%' : 'TOP 30%'}
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: '#7dd3fc', marginTop: '0.3rem' }}>
-                    of developers
-                  </div>
-                </div>
-                
-                <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: '2rem', marginBottom: '0.5rem' }}>🎭</div>
-                  <div className="pixel-font" style={{ fontSize: '0.6rem', color: '#22d3ee', marginBottom: '0.5rem' }}>
-                    DEVELOPER TYPE
-                  </div>
-                  <div style={{ fontSize: '1rem', color: 'white', fontWeight: 'bold' }}>
-                    {data.metrics.commitFrequency < 5 ? 'GHOST' :
-                     data.metrics.languages.length <= 1 ? 'ONE-TRICK' :
-                     data.metrics.emojiRatio > 0.5 ? 'EMOJI KID' : 'BASIC'}
-                  </div>
-                  <div style={{ fontSize: '0.7rem', color: '#7dd3fc', marginTop: '0.3rem' }}>
-                    stereotype
-                  </div>
-                </div>
-              </div>
-            </div>
+
 
             {/* Creative Metrics Dashboard */}
         <div style={{
@@ -695,43 +920,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
             </div>
 
             {/* Duck Rating */}
-            <div style={{
-              background: 'rgba(168, 85, 247, 0.1)',
-              border: '1px solid #a855f7',
-              padding: '1rem',
-              minWidth: '140px',
-              textAlign: 'center',
-              position: 'relative',
-              clipPath: 'polygon(0px 3px, 3px 3px, 3px 0px, calc(100% - 3px) 0px, calc(100% - 3px) 3px, 100% 3px, 100% calc(100% - 3px), calc(100% - 3px) calc(100% - 3px), calc(100% - 3px) 100%, 3px 100%, 3px calc(100% - 3px), 0px calc(100% - 3px))',
-            }}>
-              <div style={{ fontSize: '1.5rem', marginBottom: '0.5rem' }}>🦆</div>
-              <div style={{ 
-                fontFamily: "'Press Start 2P', cursive", 
-                fontSize: '0.6rem', 
-                color: '#a855f7',
-                marginBottom: '0.5rem'
-              }}>
-                DUCK RATING
-              </div>
-              <div style={{ 
-                fontSize: '1.2rem', 
-                color: '#ffffff', 
-                fontWeight: 'bold',
-                textShadow: '0 0 5px #a855f7'
-              }}>
-                {data.metrics.productivityScore}/10
-              </div>
-              <div style={{
-                position: 'absolute',
-                top: '5px',
-                right: '5px',
-                width: '4px',
-                height: '4px',
-                background: '#a855f7',
-                borderRadius: '50%',
-                animation: 'powerPulse 1s ease-in-out infinite',
-              }}></div>
-            </div>
+
           </div>
 
           {/* Terminal Footer */}
@@ -856,6 +1045,8 @@ const RoastDisplay = ({ data, onNewRoast }) => {
               </div>
             )}
 
+
+
             {/* Action Buttons */}
             <div style={{ textAlign: 'center' }}>
               <button 
@@ -877,7 +1068,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                   borderRadius: window.innerWidth <= 768 ? '8px' : '0',
                   minHeight: window.innerWidth <= 768 ? '48px' : 'auto',
                   boxSizing: 'border-box',
-                  minWidth: window.innerWidth <= 768 ? '200px' : 'auto',
+                  minWidth: window.innerWidth <= 768 ? '180px' : 'auto',
                 }}
                 onMouseEnter={(e) => {
                   if (window.innerWidth > 768) {
@@ -892,7 +1083,7 @@ const RoastDisplay = ({ data, onNewRoast }) => {
                   }
                 }}
               >
-                {window.innerWidth <= 480 ? '► NEW SCAN ◄' : '► NEW SCAN ◄'}
+                ► NEW SCAN ◄
               </button>
             </div>
           </div>

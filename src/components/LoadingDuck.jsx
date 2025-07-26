@@ -1,35 +1,153 @@
 import React, { useState, useEffect } from 'react';
 
+// Loading sound effects
+const playLoadingBeep = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 800;
+      gainNode.gain.setValueAtTime(0.02, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (error) {
+      console.log('Audio not supported');
+    }
+  }
+};
+
+const playProgressBlip = () => {
+  if (typeof window !== 'undefined' && window.AudioContext) {
+    try {
+      const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      oscillator.frequency.value = 1200;
+      gainNode.gain.setValueAtTime(0.015, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.05);
+      
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.05);
+    } catch (error) {
+      console.log('Audio not supported');
+    }
+  }
+};
+
 const LoadingDuck = () => {
   const [currentQuote, setCurrentQuote] = useState(0);
   const [progress, setProgress] = useState(0);
+  const [stage, setStage] = useState(0);
 
-  const loadingQuotes = [
-    "Initializing Duck.exe...",
-    "Scanning for questionable commit messages...",
-    "Analyzing emoji-to-code ratio...",
-    "Detecting abandoned projects...",
-    "Calculating productivity shame...",
-    "Loading roast algorithms...",
-    "Preparing devastating one-liners...",
-    "Charging sarcasm batteries...",
-    "Compiling harsh truths...",
-    "Finalizing duck wisdom..."
+  const loadingStages = [
+    {
+      quotes: [
+        "🔍 Initializing Duck.exe...",
+        "🔄 Loading roasting protocols...",
+        "⚡ Charging sarcasm batteries..."
+      ],
+      color: '#22d3ee',
+      duration: 1500
+    },
+    {
+      quotes: [
+        "📊 Scanning repository architecture...",
+        "🔎 Detecting questionable commit messages...",
+        "📈 Analyzing code quality patterns..."
+      ],
+      color: '#fbbf24',
+      duration: 1900
+    },
+    {
+      quotes: [
+        "🎯 Calculating productivity metrics...",
+        "😵 Measuring emoji-to-code ratio...",
+        "🦴 Detecting abandoned projects..."
+      ],
+      color: '#f59e0b',
+      duration: 1700
+    },
+    {
+      quotes: [
+        "🧠 Compiling personality analysis...",
+        "🔥 Loading roast algorithms...",
+        "💀 Preparing devastating one-liners..."
+      ],
+      color: '#ef4444',
+      duration: 2100
+    },
+    {
+      quotes: [
+        "⚡ Finalizing duck wisdom...",
+        "🎭 Rehearsing dramatic delivery...",
+        "🦆 ROAST SEQUENCE ARMED!"
+      ],
+      color: '#10b981',
+      duration: 1400
+    }
   ];
 
-  useEffect(() => {
-    const quoteInterval = setInterval(() => {
-      setCurrentQuote((prev) => (prev + 1) % loadingQuotes.length);
-    }, 1200);
+  const currentStageData = loadingStages[Math.min(stage, loadingStages.length - 1)];
 
-    const progressInterval = setInterval(() => {
+  useEffect(() => {
+    let stageTimeout;
+    let quoteInterval;
+    let progressInterval;
+
+    const startStage = (stageIndex) => {
+      if (stageIndex >= loadingStages.length) return;
+      
+      const stageData = loadingStages[stageIndex];
+      setStage(stageIndex);
+      setCurrentQuote(0);
+      
+      // Play loading beep when starting new stage
+      playLoadingBeep();
+      
+      // Quote rotation within stage
+      quoteInterval = setInterval(() => {
+        setCurrentQuote((prev) => (prev + 1) % stageData.quotes.length);
+        playLoadingBeep(); // Beep on each quote change
+      }, stageData.duration / stageData.quotes.length);
+      
+      // Move to next stage after duration
+      stageTimeout = setTimeout(() => {
+        clearInterval(quoteInterval);
+        startStage(stageIndex + 1);
+      }, stageData.duration);
+    };
+
+    // Progress bar animation
+    progressInterval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 95) return prev;
-        return prev + Math.random() * 15;
+        const newProgress = prev + Math.random() * 8 + 2; // Slower, more steady progress
+        if (newProgress > 98) return 98; // Don't quite reach 100% until roast loads
+        
+        // Play progress blip occasionally
+        if (Math.random() < 0.3) {
+          playProgressBlip();
+        }
+        
+        return newProgress;
       });
-    }, 800);
+    }, 400); // Slower progress updates
+
+    // Start the loading sequence
+    startStage(0);
 
     return () => {
+      clearTimeout(stageTimeout);
       clearInterval(quoteInterval);
       clearInterval(progressInterval);
     };
@@ -83,22 +201,33 @@ const LoadingDuck = () => {
           }}>
             <div style={{
               fontFamily: "'JetBrains Mono', monospace",
-              color: '#10b981',
+              color: currentStageData.color,
               fontSize: '0.9rem',
               marginBottom: '1rem',
-              textShadow: '0 0 10px rgba(16, 185, 129, 0.5)',
+              textShadow: `0 0 10px ${currentStageData.color}80`,
+              transition: 'all 0.5s ease',
             }}>
-              &gt; STATUS: {loadingQuotes[currentQuote]}
+              &gt; STATUS: {currentStageData.quotes[currentQuote]}
             </div>
             
             <div style={{
               fontFamily: "'JetBrains Mono', monospace",
               color: '#86efac',
               fontSize: '0.8rem',
-              marginBottom: '1.5rem',
+              marginBottom: '0.5rem',
               textShadow: '0 0 5px rgba(134, 239, 172, 0.3)',
             }}>
-              &gt; Analyzing repository patterns...
+              &gt; STAGE {stage + 1}/{loadingStages.length} - {Math.round((stage + 1) / loadingStages.length * 100)}% Complete
+            </div>
+            
+            <div style={{
+              fontFamily: "'JetBrains Mono', monospace",
+              color: '#64748b',
+              fontSize: '0.7rem',
+              marginBottom: '1.5rem',
+              textShadow: '0 0 3px rgba(100, 116, 139, 0.3)',
+            }}>
+              &gt; Deep scanning repository patterns and developer behavior...
             </div>
 
             {/* Progress Bar */}
